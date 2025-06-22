@@ -4,54 +4,23 @@
   <meta charset="utf-8">
   <title>Mystery-Box Overlay – DELIZOCKT</title>
   <style>
-    :root {
-      --c1: #ff4d9d;
-      --c2: #ffbd4a;
-      --c3: #00e4ff;
-      --t: #1e1e1e;
-    }
-    html, body {
-      margin: 0;
-      background: transparent;
-      overflow: hidden;
-      font-family: Poppins, sans-serif;
-    }
-    #wrap {
-      position: fixed;
-      bottom: 6%;
-      left: 50%;
-      transform: translateX(-50%);
-      pointer-events: none;
-    }
-    .box {
-      background: linear-gradient(135deg, var(--c1), var(--c2) 45%, var(--c3));
-      color: var(--t);
-      padding: 18px 26px;
-      border-radius: 14px;
-      min-width: 300px;
-      font-weight: 700;
-      text-align: center;
-      transform: scale(.4) rotate(-6deg);
-      opacity: 0;
-      animation: pop .8s forwards, fade .8s 3.3s forwards;
-      box-shadow: 0 8px 24px rgba(0,0,0,.25);
-    }
-    .box small {
-      display: block;
-      font-weight: 400;
-      margin-top: 6px;
-    }
-    @keyframes pop {
-      60% { transform: scale(1.05) rotate(3deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0); }
-    }
-    @keyframes fade {
-      to { opacity: 0; transform: translateY(30px) scale(.8); }
-    }
+    :root {--c1:#ff4d9d;--c2:#ffbd4a;--c3:#00e4ff;--t:#1e1e1e;}        
+    html, body {margin:0;background:transparent;overflow:hidden;font-family:Poppins,sans-serif}
+    #wrap {position:fixed;bottom:6%;left:50%;transform:translateX(-50%);pointer-events:none}
+    .box {background:linear-gradient(135deg,var(--c1),var(--c2)45%,var(--c3));color:var(--t);padding:18px 26px;border-radius:14px;min-width:300px;font-weight:700;text-align:center;transform:scale(.4) rotate(-6deg);opacity:0;animation:pop .8s forwards,fade .8s 3.3s forwards;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+    .box small {display:block;font-weight:400;margin-top:6px}
+    @keyframes pop {60% {transform:scale(1.05) rotate(3deg);opacity:1}100% {transform:scale(1) rotate(0)}}
+    @keyframes fade {to {opacity:0;transform:translateY(30px) scale(.8)}}
   </style>
 
-  <!-- TikTok Live Connector v1.2.3 -->
-  <script src="https://cdn.jsdelivr.net/npm/tiktok-live-connector@1.2.3/dist/index.js"></script>
+  <!-- Inline TikTok Live Connector v1.2.3 -->
+  <script>
+  /* BEGIN INLINE CONNECTOR */
+  /* Füge hier den gesamten minified Code von:
+     https://cdn.jsdelivr.net/npm/tiktok-live-connector@1.2.3/dist/index.js
+     ein (ca. 110 KB) */
+  /* END INLINE CONNECTOR */
+  </script>
 </head>
 <body>
   <div id="wrap"></div>
@@ -81,22 +50,16 @@
     }
 
     // Starte Verbindung
-    if (!window.TikTokLiveConnector) {
-      alert("Connector nicht geladen – CDN blockiert?");
-    } else {
-      const conn = new TikTokLiveConnector.TikTokConnection(USERNAME);
-      conn.connect().catch(console.error);
-      conn.on("gift", p => {
-        const g = p.gift;
-        if (!g) return;
-        const diamonds = (g.diamondCount ?? g.diamondCost ?? 0) * (p.repeatCount || 1);
-        const boxes = Math.max(1, Math.floor(diamonds / COINS_PER_BOX));
-        const user = p.uniqueId || "Anonym";
-        for (let i = 0; i < boxes; i++) {
-          show(rand(), user);
-        }
-      });
-    }
+    const conn = new TikTokLiveConnector.TikTokConnection(USERNAME);
+    conn.connect().catch(console.error);
+    conn.on("gift", p => {
+      const g = p.gift;
+      if (!g) return;
+      const diamonds = (g.diamondCount ?? g.diamondCost ?? 0) * (p.repeatCount || 1);
+      const boxes = Math.max(1, Math.floor(diamonds / COINS_PER_BOX));
+      const user = p.uniqueId || "Anonym";
+      for (let i = 0; i < boxes; i++) show(rand(), user);
+    });
   </script>
 </body>
 </html>
